@@ -1,0 +1,111 @@
+ <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+  <style media="screen">
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    canvas{
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+  </head>
+  <body>
+   <!-- 添加canvas标签，并加上红色边框以便于在页面上查看 -->
+   <canvas id="myCanvas" width="1000px" height="800px" style="border: 1px solid #3f51b5;"></canvas>
+   <img src="ab.png" alt="">
+ </body>
+ </html>
+<script type="text/javascript">
+
+
+  var xianzhi = 0;
+
+  var imgA = new Image();
+  imgA.src = "a.png";
+  var imgB = new Image();
+  imgB.src = "b.png"
+  var imgC = new Image();
+  imgC.src = "c.png"
+  var imgD = new Image();
+  imgD.src = "ab.png"
+
+  var rockList = [];
+  var Bullet = [];
+  var fj = {
+    x:413,
+    y:600,
+    w:50
+  }
+
+  for (var i = 0; i < 5; i++) {
+    rockList.push(
+      {
+        x:Math.random()*900+30, //设置随机数范围 最大930 最小30
+        y:Math.random()*700-700,
+        w:Math.random()*30+30,
+        id:(Math.random()).toFixed(0) //0或1
+      }
+    )
+  }
+
+  document.onkeydown = checKkey;
+
+  setInterval(pain,1);
+
+  function pain() {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,1000,800);
+    // ctx.drawImage(imgB, 150,y1,50,42);
+    for (var i = 0; i < rockList.length; i++) {
+      var r = rockList[i];
+      // ctx.drawImage(imgB, 150,y1,50,42);
+      if (r.id == 0) {
+        ctx.drawImage(imgA,0,0,100,84,r.x,r.y,r.w,r.w);
+      }else {
+        ctx.drawImage(imgB,0,0,100,84,r.x,r.y,r.w,r.w);
+      }
+      r.y+=2; //小汽车移动的速度
+    }
+
+
+    ctx.drawImage(imgC,fj.x,fj.y,87,98); //飞机
+
+    Bullet.push({
+      x:20,
+      y:20,
+      dx:1,//子弹速度
+      dy:fj.y,
+      t:0
+    })
+
+
+
+    for (var i = 0; i < Bullet.length; i++) {
+      var zd = Bullet[i];
+      ctx.drawImage(imgD,0,0,18.99,23,fj.x,zd.dy,12,12);
+    }
+    xianzhi++;
+    if (xianzhi%5==0 ) {
+      zd.dy-=10;
+      xianzhi = 0;
+    }
+
+  }
+
+
+  function checKkey(e) {
+    e = e || window.event;
+    target = e.target || e.srcElement;
+    if (e.keyCode == '37') {
+      fj.x-=20  //键盘向左
+    }else if (e.keyCode == '39') {
+      fj.x+=20  //键盘向右
+    }
+  }
+</script>
